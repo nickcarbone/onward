@@ -1,0 +1,16 @@
+/* US rail — concourse LCD board (Penn / Union Station) */
+[data-theme="us-rail"] .board { background: #000; color: #f5f5f5; font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  --grid: calc(var(--u)*12) minmax(0, 1fr) calc(var(--u)*34) calc(var(--u)*10) calc(var(--u)*24); --row-h: calc(var(--u) * 7.6); box-shadow: 0 0 0 calc(var(--u) * 1.2) #26282c; }
+[data-theme="us-rail"] .board-head { border-bottom: 2px solid #333; }
+[data-theme="us-rail"] .bh-title { text-transform: uppercase; letter-spacing: .08em; }
+[data-theme="us-rail"] .cols { color: #9ea3ab; background: #0d0e10; }
+[data-theme="us-rail"] .row { font-size: calc(var(--u) * 4); text-transform: uppercase; border-bottom: 1px solid #1c1e22; }
+[data-theme="us-rail"] .row:nth-child(odd) { background: #08090a; }
+[data-theme="us-rail"] .c-time { font-variant-numeric: tabular-nums; color: #fff; }
+[data-theme="us-rail"] .c-cat { font-size: .78em; }
+[data-theme="us-rail"] .rr { display: inline-block; min-width: 3.6em; text-align: center; font-weight: 700; padding: 0 .3em; border-radius: .15em; font-size: .8em; background: #444; color: #fff; }
+[data-theme="us-rail"] .rr-AMTK { background: #1d5aa8; } [data-theme="us-rail"] .rr-LIRR { background: #0f6b4f; } [data-theme="us-rail"] .rr-NJT { background: #7a2b8f; }
+[data-theme="us-rail"] .rr-MARC { background: #c25b12; } [data-theme="us-rail"] .rr-VRE { background: #a3192e; }
+[data-theme="us-rail"] .c-plat { text-align: center; font-weight: 700; color: #ffd54a; }
+[data-theme="us-rail"] .c-st { font-size: .78em; }
+[data-theme="us-rail"] .ok { color: #3ddc84; } [data-theme="us-rail"] .warn { color: #ffb300; } [data-theme="us-rail"] .bad { color: #ff5252; }

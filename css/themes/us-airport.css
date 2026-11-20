@@ -1,0 +1,22 @@
+/* US airport FIDS — cobalt LCD */
+[data-theme="us-airport"] .board { background: #0b3b8c; color: #fff; font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  --grid: calc(var(--u)*19) minmax(0, 1fr) calc(var(--u)*13) calc(var(--u)*11) calc(var(--u)*28); --row-h: calc(var(--u) * 6.6); box-shadow: 0 0 0 calc(var(--u) * 1.1) #111; }
+[data-theme="us-airport"] .board-head { background: #082a66; padding-bottom: var(--pad); }
+[data-theme="us-airport"] .bh-title { font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+[data-theme="us-airport"] .bh-title::before { content: "✈"; display: inline-block; margin-right: .35em; transform: rotate(-45deg); }
+[data-theme="us-airport"] .cols { background: #0a326f; color: #ffd54a; font-weight: 700; }
+[data-theme="us-airport"] .row { font-size: calc(var(--u) * 3.4); font-weight: 600; }
+[data-theme="us-airport"] .row:nth-child(even) { background: rgba(0,0,0,.14); }
+[data-theme="us-airport"] .al { display: inline-block; min-width: 2.6em; text-align: center; padding: .05em .3em; background: #fff; color: #0b3b8c; border-radius: 1em; font-size: .78em; font-weight: 800; }
+[data-theme="us-airport"] .c-time { color: #ffd54a; font-variant-numeric: tabular-nums; }
+[data-theme="us-airport"] .c-gate { text-align: center; }
+[data-theme="us-airport"] .st { display: inline-block; min-width: 8.5em; text-align: center; padding: .08em .5em; border-radius: .25em; font-size: .78em; font-weight: 800; letter-spacing: .04em; }
+[data-theme="us-airport"] .st-ontime { background: rgba(255,255,255,.14); }
+[data-theme="us-airport"] .st-sched { background: transparent; color: #c8d4ea; }
+[data-theme="us-airport"] .st-boarding { background: #12b76a; animation: board 1.4s ease-in-out infinite; }
+@keyframes board { 50% { background: #0b7a45; } }
+[data-theme="us-airport"] .st-delayed { background: #f5a524; color: #1a1300; }
+[data-theme="us-airport"] .st-closed { background: #8b1f2e; } [data-theme="us-airport"] .st-cancelled { background: #e5484d; }
+[data-theme="us-airport"] .st-departed { background: transparent; color: #93a7cc; }
+[data-theme="us-airport"] .disrupt .dh { color: #ffd54a; }
+[data-theme="us-airport"] .board-foot { background: #082a66; }

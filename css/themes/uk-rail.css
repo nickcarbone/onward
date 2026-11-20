@@ -1,0 +1,23 @@
+/* UK National Rail — amber dot-matrix concourse board */
+[data-theme="uk-rail"] .board { background: #0a0a0c; color: #ff9d00; font-family: Doto, "DotGothic16", ui-monospace, monospace; font-weight: 700;
+  --grid: calc(var(--u)*13) minmax(0, 1fr) calc(var(--u)*9) calc(var(--u)*18); --row-h: calc(var(--u) * 6.6);
+  text-shadow: 0 0 calc(var(--u) * .5) rgba(255, 157, 0, .55); box-shadow: 0 0 0 calc(var(--u) * 1.2) #18181b, 0 0 0 calc(var(--u) * 1.5) #2a2a2e; }
+/* LED pitch: a dot grid laid over everything except the bezel */
+[data-theme="uk-rail"] .board::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 4;
+  background: radial-gradient(circle, transparent 52%, rgba(10,10,12,.62) 58%) 0 0 / calc(var(--u) * .42) calc(var(--u) * .42); }
+[data-theme="uk-rail"] .board-head { border-bottom: calc(var(--u) * .3) solid rgba(255,157,0,.25); }
+[data-theme="uk-rail"] .bh-title { font-size: calc(var(--u) * 4.4); letter-spacing: .04em; }
+[data-theme="uk-rail"] .bh-station { color: #ffb84d; }
+[data-theme="uk-rail"] .bh-clock { font-size: calc(var(--u) * 4.6); }
+[data-theme="uk-rail"] .cols { opacity: .9; font-size: calc(var(--u) * 2.4); letter-spacing: .02em; text-transform: none; }
+[data-theme="uk-rail"] .row { font-size: calc(var(--u) * 3.9); letter-spacing: .02em; }
+[data-theme="uk-rail"] .row.first { color: #ffc04d; }
+[data-theme="uk-rail"] .row small { font-size: .7em; }
+[data-theme="uk-rail"] .c-plat, [data-theme="uk-rail"] .c-exp { text-align: right; }
+[data-theme="uk-rail"] .bad { color: #ff9d00; animation: ukblink 1.6s steps(1) infinite; }
+@keyframes ukblink { 50% { opacity: .35; } }
+[data-theme="uk-rail"] .row.cancelled .c-dest, [data-theme="uk-rail"] .row.cancelled .c-time { opacity: .7; }
+[data-theme="uk-rail"] .board-foot { border-top: calc(var(--u) * .3) solid rgba(255,157,0,.25); height: calc(var(--u) * 7); }
+[data-theme="uk-rail"] .ticker-text { font-size: calc(var(--u) * 3.6); }
+[data-theme="uk-rail"] .disrupt { text-align: center; padding-top: calc(var(--u) * 8); }
+@media (orientation: portrait) { [data-theme="uk-rail"] .board { --grid: calc(var(--u)*12) minmax(0,1fr) calc(var(--u)*8) calc(var(--u)*16); --row-h: calc(var(--u) * 6); } }

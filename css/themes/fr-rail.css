@@ -1,0 +1,17 @@
+/* France — SNCF-style departures (blue) */
+[data-theme="fr-rail"] .board { background: #0b1f4d; color: #fff; font-family: "Archivo Narrow", "Avenir Next Condensed", Arial, sans-serif;
+  --grid: calc(var(--u)*16) calc(var(--u)*13) minmax(0, 1fr) calc(var(--u)*24) calc(var(--u)*9); --row-h: calc(var(--u) * 8.4); box-shadow: 0 0 0 calc(var(--u) * 1.1) #1a1d24; }
+[data-theme="fr-rail"] .board-head { border-bottom: calc(var(--u) * .5) solid #ffd200; }
+[data-theme="fr-rail"] .bh-title { color: #ffd200; font-weight: 700; }
+[data-theme="fr-rail"] .bh-clock { color: #ffd200; }
+[data-theme="fr-rail"] .cols { color: #9fb3dd; }
+[data-theme="fr-rail"] .row { font-size: calc(var(--u) * 4); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.12); }
+[data-theme="fr-rail"] .row:nth-child(odd) { background: rgba(255,255,255,.035); }
+[data-theme="fr-rail"] .c-cat .d1 { font-size: .5em; text-transform: uppercase; color: #cdd8f0; }
+[data-theme="fr-rail"] .c-cat .d2 { font-size: .62em; opacity: 1; }
+[data-theme="fr-rail"] .c-time { color: #ffd200; font-variant-numeric: tabular-nums; }
+[data-theme="fr-rail"] .c-info { font-size: .66em; }
+[data-theme="fr-rail"] .warn { color: #ffd200; } [data-theme="fr-rail"] .bad { color: #ff6b6b; }
+[data-theme="fr-rail"] .c-plat { text-align: center; }
+[data-theme="fr-rail"] .plat { display: inline-block; min-width: 1.6em; background: #fff; color: #0b1f4d; font-weight: 800; text-align: center; border-radius: .12em; }
+[data-theme="fr-rail"] .board-foot { background: #081739; color: #ffd200; }

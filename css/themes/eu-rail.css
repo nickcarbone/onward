@@ -1,0 +1,25 @@
+/* Switzerland — SBB-style navy departure board */
+[data-theme="eu-rail"] .board { background: #00205b; color: #fff; font-family: "Inter Tight", Inter, "Helvetica Neue", Arial, sans-serif;
+  --grid: calc(var(--u)*10) calc(var(--u)*13) minmax(0, 1fr) calc(var(--u)*14) calc(var(--u)*11); --row-h: calc(var(--u) * 8.6); box-shadow: 0 0 0 calc(var(--u) * 1.1) #c9ccd1, 0 0 0 calc(var(--u) * 1.4) #8d9198; }
+[data-theme="eu-rail"] .board-head { align-items: center; border-bottom: 1px solid rgba(255,255,255,.25); }
+[data-theme="eu-rail"] .bh-title { font-size: calc(var(--u) * 3.4); font-weight: 600; }
+[data-theme="eu-rail"] .bh-station { font-size: calc(var(--u) * 3); text-align: right; padding-right: calc(var(--u) * 2); }
+[data-theme="eu-rail"] .clock-analog { width: calc(var(--u) * 12); height: calc(var(--u) * 12); }
+.clock-analog svg { width: 100%; height: 100%; display: block; }
+.clock-analog .face { fill: #fff; stroke: #c9ccd1; stroke-width: 1; }
+.clock-analog .ticks rect, .clock-analog .h-hand, .clock-analog .m-hand { fill: #111; }
+.clock-analog .s-hand rect { fill: #333; } .clock-analog .s-ring { fill: none; stroke: #333; stroke-width: 1.1; } .clock-analog .pin { fill: #333; }
+[data-theme="eu-rail"] .cols { font-size: calc(var(--u) * 1.8); }
+[data-theme="eu-rail"] .row { font-size: calc(var(--u) * 3.8); border-bottom: 1px solid rgba(255,255,255,.16); font-weight: 500; }
+[data-theme="eu-rail"] .c-time { font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="eu-rail"] .cat-pill { display: inline-block; min-width: 3.2em; text-align: center; padding: .05em .35em; border-radius: .18em; background: #fff; color: #00205b; font-weight: 800; font-size: .72em; }
+[data-theme="eu-rail"] .c-ICE .cat-pill, [data-theme="eu-rail"] .cat-pill.c-ICE, [data-theme="eu-rail"] .cat-pill.c-EC, [data-theme="eu-rail"] .cat-pill.c-IC, [data-theme="eu-rail"] .cat-pill.c-TGV, [data-theme="eu-rail"] .cat-pill.c-RJX, [data-theme="eu-rail"] .cat-pill.c-NJ { background: #eb0000; color: #fff; }
+[data-theme="eu-rail"] .cat-pill.c-S, [data-theme="eu-rail"] .cat-pill.c-SN { background: #fff; color: #00205b; border-radius: 1em; }
+[data-theme="eu-rail"] .d2 { font-size: .5em; opacity: .85; margin-top: .1em; }
+[data-theme="eu-rail"] .warn { color: #ffd600; font-weight: 700; font-size: .8em; }
+[data-theme="eu-rail"] .bad { color: #ff6b6b; font-size: .8em; }
+[data-theme="eu-rail"] .c-plat { text-align: center; }
+[data-theme="eu-rail"] .plat { display: inline-block; min-width: 1.7em; padding: .05em .2em; background: #ffd600; color: #000; font-weight: 800; text-align: center; }
+[data-theme="eu-rail"] .plat.changed { outline: .12em solid #fff; animation: platflash 1.2s ease-in-out infinite alternate; }
+@keyframes platflash { to { background: #fff; } }
+[data-theme="eu-rail"] .board-foot { border-top: 1px solid rgba(255,255,255,.2); }

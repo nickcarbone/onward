@@ -1,0 +1,15 @@
+/* Germany — DB-style departure board (white panel, blue type) */
+[data-theme="de-rail"] .board { background: #f4f6f8; color: #0c2a6b; font-family: "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
+  --grid: calc(var(--u)*14) calc(var(--u)*20) minmax(0, 1fr) calc(var(--u)*9) calc(var(--u)*20); --row-h: calc(var(--u) * 8); box-shadow: 0 0 0 calc(var(--u) * 1.2) #2b2f36; }
+[data-theme="de-rail"] .board-head { background: #0c2a6b; color: #fff; padding-bottom: var(--pad); }
+[data-theme="de-rail"] .bh-title { font-weight: 700; }
+[data-theme="de-rail"] .cols { color: #0c2a6b; font-weight: 700; opacity: .7; border-bottom: 2px solid #0c2a6b; }
+[data-theme="de-rail"] .row { font-size: calc(var(--u) * 4); font-weight: 500; border-bottom: 1px solid #d3d9e2; }
+[data-theme="de-rail"] .c-time { font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="de-rail"] .d2 { font-size: .55em; }
+[data-theme="de-rail"] .cat { display: inline-block; font-weight: 700; padding: .02em .3em; border: .08em solid #0c2a6b; border-radius: .15em; font-size: .78em; }
+[data-theme="de-rail"] .c-plat { text-align: center; font-weight: 700; }
+[data-theme="de-rail"] .plat.changed { background: #ec0016; color: #fff; padding: 0 .25em; }
+[data-theme="de-rail"] .warn { color: #ec0016; font-weight: 700; } [data-theme="de-rail"] .bad { background: #ec0016; color: #fff; padding: 0 .3em; font-size: .8em; }
+[data-theme="de-rail"] .c-rem { font-size: .75em; }
+[data-theme="de-rail"] .board-foot { background: #0c2a6b; color: #fff; }

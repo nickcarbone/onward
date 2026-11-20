@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Onward — Departure boards from around the world</title>
+<meta name="description" content="An ambient departure board for a second monitor: real departures from rail stations and airports, each in its own country's signage style.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%225%22 fill=%22%230a0a0c%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%23ff9d00%22 font-family=%22monospace%22 font-weight=%22bold%22%3EC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Barlow+Condensed:wght@500;700&family=DotGothic16&family=Doto:wght@600;800&family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@500;700&family=Roboto+Condensed:wght@500;700&family=Source+Sans+3:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes/uk-rail.css">
+<link rel="stylesheet" href="css/themes/us-airport.css">
+<link rel="stylesheet" href="css/themes/jp-rail.css">
+<link rel="stylesheet" href="css/themes/eu-rail.css">
+<link rel="stylesheet" href="css/themes/nl-rail.css">
+<link rel="stylesheet" href="css/themes/de-rail.css">
+<link rel="stylesheet" href="css/themes/fr-rail.css">
+<link rel="stylesheet" href="css/themes/es-rail.css">
+<link rel="stylesheet" href="css/themes/solari-flap.css">
+<link rel="stylesheet" href="css/themes/us-rail.css">
+</head>
+<body data-theme="uk-rail">
+  <nav id="hud" aria-label="Board controls">
+    <span class="brand">ONWARD</span>
+    <select id="hubSelect" aria-label="Choose a station or airport"></select>
+    <label>Auto-roam
+      <select id="roamSelect" aria-label="Auto-roam interval">
+        <option value="0">Off</option><option value="10">10 min</option><option value="20">20 min</option><option value="30">30 min</option>
+      </select>
+    </label>
+    <label title="Favour hubs that are in their local morning or evening rush"><input type="checkbox" id="rushToggle"> Rush hour</label>
+    <button id="soundBtn" aria-pressed="false" title="Chimes on/off">🔇 Sound</button>
+    <button id="roomBtn" aria-pressed="false" title="Station-hall room tone">Room tone</button>
+    <button id="fsBtn" title="Fullscreen">⛶ Fullscreen</button>
+    <button id="settingsBtn" title="Keys and data sources">⚙ Settings</button>
+    <span class="spacer"></span>
+    <span class="hint" id="hint">Controls hide after 4 seconds</span>
+  </nav>
+
+  <main id="stage"><section class="board" id="board" aria-live="polite"></section></main>
+  <a id="badge" href="https://transitous.org/sources/" target="_blank" rel="noopener"><span class="dot"></span><span class="txt">LOADING</span></a>
+
+  <div id="settings" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="panel">
+      <h2 id="setTitle">Settings &amp; data sources</h2>
+      <p>Keys are stored only in this browser (localStorage) and sent only to the provider they belong to.</p>
+
+      <h3>UK National Rail (optional)</h3>
+      <p>UK boards already run live through the community Huxley2 proxy. A free <a href="https://raildata.org.uk/" target="_blank" rel="noopener">Rail Data Marketplace</a> key (subscribe to “Live Departure Board”) connects directly to Darwin instead.</p>
+      <label for="rdmKey">Consumer key</label><input id="rdmKey" autocomplete="off" spellcheck="false">
+      <label for="rdmUrl">Endpoint (copy from the product’s Specification tab if it differs)</label><input id="rdmUrl" autocomplete="off" spellcheck="false" placeholder="https://api1.raildata.org.uk/1010-live-departure-board-dep1_2/LDBWS/api/20220120/GetDepBoardWithDetails">
+
+      <h3>Airports</h3>
+      <p>Airport boards need one key. AeroDataBox (via RapidAPI) has an instant free tier and the most board-like data. Without a key the airport boards show a service notice.</p>
+      <label for="adbKey">AeroDataBox — RapidAPI key</label><input id="adbKey" autocomplete="off" spellcheck="false">
+      <div class="row2">
+        <div><label for="airlabsKey">AirLabs key</label><input id="airlabsKey" autocomplete="off" spellcheck="false"></div>
+        <div><label for="avstackKey">Aviationstack key</label><input id="avstackKey" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <label for="flightBudget">Monthly request budget (all airports combined)</label><input id="flightBudget" type="number" min="10" step="10">
+      <p class="usage" id="usageLine"></p>
+
+      <h3>About the data</h3>
+      <p>Every departure shown comes from a published source; nothing is generated. Live sources: National Rail Darwin, SBB (transport.opendata.ch), Amtrak (Amtraker), and operator real-time feeds carried by Transitous (NS, LIRR, parts of DB). Everywhere else the board shows the operator’s published timetable and the corner badge says <b>TIMETABLE</b>.</p>
+      <p>Timetables: <a href="https://transitous.org/sources/" target="_blank" rel="noopener">Transitous and its sources</a> (map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>). UK live data: National Rail Enquiries / Rail Delivery Group, via <a href="https://github.com/jpsingleton/Huxley2" target="_blank" rel="noopener">Huxley2</a>. Swiss data: <a href="https://transport.opendata.ch/" target="_blank" rel="noopener">transport.opendata.ch</a>. Amtrak: <a href="https://amtraker.com/" target="_blank" rel="noopener">Amtraker</a>. Chimes are original synthesis.</p>
+      <p>Contact: <a href="https://nickcarbone.github.io/" target="_blank" rel="noopener">nickcarbone.github.io</a></p>
+      <div class="actions"><button id="clearCache">Clear flight cache</button><button id="closeSettings">Cancel</button><button class="primary" id="saveSettings">Save</button></div>
+    </div>
+  </div>
+
+  <script src="js/util.js"></script>
+  <script src="data/hubs.js"></script>
+  <script src="js/audioEngine.js"></script>
+  <script src="js/flightEngine.js"></script>
+  <script src="js/sources.js"></script>
+  <script src="js/renderers.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

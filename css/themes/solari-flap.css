@@ -1,0 +1,25 @@
+/* Classic mechanical split-flap board */
+[data-theme="solari-flap"] .board { background: #1b1c1e; color: #f3f1ea; font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif; font-weight: 700;
+  --u: 0.92vmin; --fl-w: calc(var(--u) * 3.1); --row-h: calc(var(--u) * 6.2); box-shadow: 0 0 0 calc(var(--u) * 1.4) #0d0d0e, inset 0 0 calc(var(--u) * 8) rgba(0,0,0,.6); }
+[data-theme="solari-flap"] .board-head { border-bottom: 2px solid #2b2c2f; }
+[data-theme="solari-flap"] .bh-title { letter-spacing: .12em; text-transform: uppercase; font-size: calc(var(--u) * 4.4); }
+[data-theme="solari-flap"] .bh-station { text-transform: uppercase; letter-spacing: .08em; color: #d9d6cc; }
+[data-theme="solari-flap"] .cols, [data-theme="solari-flap"] .frow { grid-template-columns: repeat(5, auto); justify-content: start; column-gap: calc(var(--u) * 2.2); }
+[data-theme="solari-flap"] .flap-head .c { width: calc(var(--w) * (var(--fl-w) + var(--u) * .28)); color: #c9c6bd; font-size: calc(var(--u) * 1.9); }
+[data-theme="solari-flap"] .frow { height: var(--row-h); }
+[data-theme="solari-flap"] .fl { background: linear-gradient(#2c2d30 0 49%, #111 49% 51%, #262729 51% 100%); border-radius: calc(var(--u) * .3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 1px 1px rgba(0,0,0,.7); font-size: calc(var(--u) * 3.4); color: #f3f1ea; }
+[data-theme="solari-flap"] .fl::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 50%; border-radius: inherit; transform-origin: bottom; background: linear-gradient(#36373a, #232426); opacity: 0; z-index: 2; }
+[data-theme="solari-flap"] .fl.flip::after { animation: flapdown 90ms ease-in; }
+@keyframes flapdown { 0% { transform: rotateX(0); opacity: 1; } 100% { transform: rotateX(-90deg); opacity: 1; } }
+[data-theme="solari-flap"] .fl::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,0,0,.85); z-index: 3; }
+[data-theme="solari-flap"] .c-time .fl, [data-theme="solari-flap"] .c-plat .fl { color: #ffd24a; }
+[data-theme="solari-flap"] .c-rit .fl { color: #ff8a65; }
+.clock-flip { display: flex; gap: calc(var(--u) * .4); align-items: center; }
+.clock-flip .ff { position: relative; width: calc(var(--u) * 4.2); height: calc(var(--u) * 6.2); display: inline-flex; align-items: center; justify-content: center; font-size: calc(var(--u) * 4.6);
+  background: linear-gradient(#2c2d30 0 49%, #111 49% 51%, #262729 51%); border-radius: calc(var(--u) * .4); }
+.clock-flip .ff.flipnow { animation: ffpulse .25s ease; } @keyframes ffpulse { 50% { transform: scaleY(.85); } }
+.clock-flip i { font-style: normal; font-size: calc(var(--u) * 4); }
+[data-theme="solari-flap"] .board-foot { display: none; }
+
+[data-theme="solari-flap"] .fl { width: var(--fl-w); height: calc(var(--u) * 4.8); font-size: calc(var(--u) * 3.7); }

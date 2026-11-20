@@ -1,0 +1,18 @@
+/* Netherlands — NS-style blue departure board */
+[data-theme="nl-rail"] .board { background: #003082; color: #fff; font-family: "Source Sans 3", "Frutiger", Inter, Arial, sans-serif;
+  --grid: calc(var(--u)*19) minmax(0, 1fr) calc(var(--u)*11) calc(var(--u)*20); --row-h: calc(var(--u) * 8.2); box-shadow: 0 0 0 calc(var(--u) * 1.1) #ffc917; }
+[data-theme="nl-rail"] .board-head { background: #ffc917; color: #003082; padding-bottom: var(--pad); }
+[data-theme="nl-rail"] .bh-title { font-weight: 800; } [data-theme="nl-rail"] .bh-title small { opacity: .8; }
+[data-theme="nl-rail"] .bh-station { font-weight: 600; opacity: 1; }
+[data-theme="nl-rail"] .bh-clock { font-weight: 700; }
+[data-theme="nl-rail"] .cols { font-weight: 600; font-size: calc(var(--u) * 2); }
+[data-theme="nl-rail"] .row { font-size: calc(var(--u) * 4); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.18); }
+[data-theme="nl-rail"] .row:nth-child(even) { background: rgba(255,255,255,.04); }
+[data-theme="nl-rail"] .c-time { font-variant-numeric: tabular-nums; }
+[data-theme="nl-rail"] .bad { color: #ff4d4d; } [data-theme="nl-rail"] .d2.bad { font-size: .55em; }
+[data-theme="nl-rail"] .c-plat { text-align: center; }
+[data-theme="nl-rail"] .plat { display: inline-block; min-width: 1.9em; padding: .02em .25em; border: .1em solid #fff; border-radius: .2em; text-align: center; font-weight: 700; }
+[data-theme="nl-rail"] .plat.changed { background: #fff; color: #003082; }
+[data-theme="nl-rail"] .c-cat { font-size: .7em; font-weight: 400; }
+[data-theme="nl-rail"] .row.cancelled .c-dest .d1, [data-theme="nl-rail"] .row.cancelled .c-time { text-decoration: line-through; opacity: .7; }
+[data-theme="nl-rail"] .board-foot { background: #00256a; }

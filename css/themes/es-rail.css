@@ -1,0 +1,15 @@
+/* Spain — Adif-style departures (black, amber/white) */
+[data-theme="es-rail"] .board { background: #050608; color: #fff; font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --grid: calc(var(--u)*12) minmax(0, 1fr) calc(var(--u)*24) calc(var(--u)*8) calc(var(--u)*28); --row-h: calc(var(--u) * 8); box-shadow: 0 0 0 calc(var(--u) * 1.2) #2a2d33; }
+[data-theme="es-rail"] .board-head { background: #6c1d45; padding-bottom: var(--pad); }
+[data-theme="es-rail"] .bh-title { font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+[data-theme="es-rail"] .cols { color: #b5b9c2; background: #121419; }
+[data-theme="es-rail"] .row { font-size: calc(var(--u) * 4.2); font-weight: 500; border-bottom: 1px solid #1b1e24; }
+[data-theme="es-rail"] .c-time { color: #ffc107; font-variant-numeric: tabular-nums; font-weight: 700; }
+[data-theme="es-rail"] .c-dest { color: #ffc107; text-transform: uppercase; }
+[data-theme="es-rail"] .c-cat { font-size: .78em; }
+[data-theme="es-rail"] .cat { display: inline-block; padding: 0 .3em; background: #fff; color: #6c1d45; font-weight: 700; border-radius: .12em; font-size: .85em; }
+[data-theme="es-rail"] .c-plat { text-align: center; color: #fff; font-weight: 700; }
+[data-theme="es-rail"] .c-rem { font-size: .7em; }
+[data-theme="es-rail"] .warn { color: #ff9f1a; } [data-theme="es-rail"] .bad { color: #ff5252; }
+[data-theme="es-rail"] .board-foot { background: #121419; color: #ffc107; }
