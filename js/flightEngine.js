@@ -7,7 +7,7 @@
  */
 (function () {
   const U = window.CU;
-  const CACHE_KEY = 'onward.flightCache';
+  const CACHE_KEY = 'onward.flightCache.v2'; /* v2: destination-name fix; v1 rows may hold bare airport codes */
   const USAGE_KEY = 'onward.flightUsage';
   const MONTH_MIN = 30 * 24 * 60;
 
@@ -28,9 +28,15 @@
     DXB: 'Dubai', DOH: 'Doha', AUH: 'Abu Dhabi', NRT: 'Tokyo-Narita', HND: 'Tokyo-Haneda', ICN: 'Seoul', PEK: 'Beijing', PVG: 'Shanghai', HKG: 'Hong Kong', TPE: 'Taipei',
     SIN: 'Singapore', MNL: 'Manila', SYD: 'Sydney', MEL: 'Melbourne', AKL: 'Auckland', DEL: 'Delhi', BOM: 'Mumbai', GRU: 'São Paulo', EZE: 'Buenos Aires', BOG: 'Bogotá',
     LIM: 'Lima', SCL: 'Santiago', PTY: 'Panama City', SAL: 'San Salvador', GUA: 'Guatemala City', SJO: 'San José CR', MBJ: 'Montego Bay', NAS: 'Nassau', AUA: 'Aruba',
-    PUJ: 'Punta Cana', SDQ: 'Santo Domingo', STT: 'St. Thomas', BGI: 'Barbados', HAV: 'Havana', ADD: 'Addis Ababa', LOS: 'Lagos', ACC: 'Accra', CMN: 'Casablanca', JNB: 'Johannesburg'
+    PUJ: 'Punta Cana', SDQ: 'Santo Domingo', STT: 'St. Thomas', BGI: 'Barbados', HAV: 'Havana', ADD: 'Addis Ababa', LOS: 'Lagos', ACC: 'Accra', CMN: 'Casablanca', JNB: 'Johannesburg',
+    CAI: 'Cairo', SLK: 'Saranac Lake', TIA: 'Tirana', RMO: 'Chisinau', BFS: 'Belfast', PMI: 'Palma de Mallorca', AGP: 'Málaga', NBE: 'Enfidha', PSA: 'Pisa'
   };
-  const city = iata => AIRPORT_CITY[iata] || ((window.ONWARD_CITY_I18N || {})[iata] || [])[0] || iata || '';
+  /** Curated city name for an airport code, or '' when the code is not in our tables. */
+  const cityOnly = iata => AIRPORT_CITY[iata] || ((window.ONWARD_CITY_I18N || {})[iata] || [])[0] || '';
+  /** City name, falling back to the bare code (used by providers that return no airport names). */
+  const city = iata => cityOnly(iata) || iata || '';
+  /** "Palma de Mallorca Airport" / "Belfast International" -> "Palma de Mallorca" / "Belfast". */
+  const cleanApName = n => String(n || '').replace(/\s+(International|Intl\.?|Regional|Municipal|Airport|Airfield|Aeropuerto|Aeroporto|Flughafen)\b.*$/i, '').trim();
 
   const S = () => window.ONWARD_SETTINGS || {};
   function provider() {
@@ -64,7 +70,7 @@
       return {
         key: num + '|' + (sched && sched.toISOString()), sched, exp: rev, rt: true,
         airline: (f.airline || {}).iata || num.split(' ')[0], airlineName: (f.airline || {}).name || '',
-        flight: num, dest: ap.municipalityName || ap.shortName || city(ap.iata) || ap.name || '', destCode: ap.iata || '',
+        flight: num, dest: ap.municipalityName || ap.shortName || cityOnly(ap.iata) || cleanApName(ap.name || ap.fullName) || ap.iata || '', destCode: ap.iata || '',
         gate: dep.gate || '', terminal: dep.terminal || '', status: ADB_STATUS[f.status] || '', rawStatus: f.status || '',
         cancelled: /cancel/i.test(f.status || '')
       };
@@ -98,7 +104,7 @@
       const st = f.flight_status || '';
       return {
         key: (f.flight || {}).iata + '|' + dep.scheduled, sched: local(dep.scheduled), exp: local(dep.estimated), rt: true,
-        airline: (f.airline || {}).iata || '', flight: ((f.airline || {}).iata || '') + ' ' + ((f.flight || {}).number || ''),
+        airline: (f.airline || {}).iata || '', airlineName: (f.airline || {}).name || '', flight: ((f.airline || {}).iata || '') + ' ' + ((f.flight || {}).number || ''),
         dest: city(arr.iata) !== arr.iata ? city(arr.iata) : (arr.airport || arr.iata || ''), destCode: arr.iata || '',
         gate: dep.gate || '', terminal: dep.terminal || '',
         status: st === 'cancelled' ? 'CANCELLED' : (st === 'active' || st === 'landed') ? 'DEPARTED' : st === 'diverted' ? 'DIVERTED' : ((dep.delay || 0) > 5 ? 'DELAYED' : ''),

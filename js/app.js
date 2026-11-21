@@ -3,7 +3,7 @@
   const U = window.CU, R = window.Renderers, A = window.AudioEngine;
   const HUBS = window.ONWARD_HUBS;
   const SKEY = 'onward.settings';
-  const DEFAULTS = { rdmKey: '', rdmUrl: '', adbKey: '', airlabsKey: '', avstackKey: '', flightBudget: 100, hub: 'PAD', roam: 0, rush: true, sound: false, roomTone: false };
+  const DEFAULTS = { rdmKey: '', rdmUrl: '', adbKey: '', airlabsKey: '', avstackKey: '', flightBudget: 100, hub: 'PAD', roam: 0, rush: true, sound: false, roomTone: false, airlineLogos: true };
   const S = window.ONWARD_SETTINGS = Object.assign({}, DEFAULTS, U.load(SKEY, {}));
   const persist = () => U.save(SKEY, S);
 
@@ -188,6 +188,7 @@
   const fields = ['rdmKey', 'rdmUrl', 'adbKey', 'airlabsKey', 'avstackKey', 'flightBudget'];
   function openSettings() {
     fields.forEach(f => { document.getElementById(f).value = S[f] || ''; });
+    document.getElementById('airlineLogos').checked = S.airlineLogos !== false;
     const FE = window.FlightEngine;
     document.getElementById('usageLine').textContent = `This month: ${FE.usage()} of ${FE.budget()} flight requests used. One airport board refreshes every ${FE.intervalMin()} minutes at this budget.`;
     modal.classList.add('open');
@@ -197,9 +198,10 @@
   modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
   document.getElementById('saveSettings').addEventListener('click', () => {
     fields.forEach(f => { const v = document.getElementById(f).value.trim(); S[f] = f === 'flightBudget' ? Math.max(10, +v || 100) : v; });
+    S.airlineLogos = document.getElementById('airlineLogos').checked;
     persist(); modal.classList.remove('open'); selectHub(hub.id, { instant: true });
   });
-  document.getElementById('clearCache').addEventListener('click', () => { localStorage.removeItem('onward.flightCache'); });
+  document.getElementById('clearCache').addEventListener('click', () => { localStorage.removeItem('onward.flightCache'); localStorage.removeItem('onward.flightCache.v2'); });
 
   /* ── Keyboard: ← → cycle hubs, F fullscreen, S settings ─────────────── */
   window.addEventListener('keydown', e => {

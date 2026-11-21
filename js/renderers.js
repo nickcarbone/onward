@@ -122,8 +122,8 @@
     'us-airport': {
       clock: 'digital',
       cols: [
-        { k: 'flt', label: 'Flight', v: r => `<span class="al">${esc(r.airline || '')}</span> ${esc((r.flight || '').replace(/^\S+\s*/, ''))}` },
-        { k: 'dest', label: 'Destination', v: r => esc(r.dest) + (r.destCode ? ` <small>${esc(r.destCode)}</small>` : '') },
+        { k: 'flt', label: 'Flight', v: r => `${airlineMark(r)} ${esc((r.flight || '').replace(/^\S+\s*/, ''))}` },
+        { k: 'dest', label: 'Destination', v: r => esc(r.dest) + (r.destCode ? ` <small>${esc(r.destCode)}</small>` : '') + airlineTag(r) },
         { k: 'time', label: 'Departs', v: (r, h) => U.hm(r.sched, h.tz) },
         { k: 'gate', label: 'Gate', v: r => esc([r.terminal && !/^\d+$/.test(r.gate) ? r.terminal : '', r.gate].filter(Boolean).join(' ')) },
         { k: 'st', label: 'Status', v: (r, h) => {
@@ -153,6 +153,24 @@
   const ST_CLASS = { 'BOARDING': 'boarding', 'ON TIME': 'ontime', 'DELAYED': 'delayed', 'GATE CLOSED': 'closed', 'CANCELLED': 'cancelled', 'DEPARTED': 'departed', 'CHECK-IN': 'ontime', 'SCHEDULED': 'sched', 'DIVERTED': 'delayed' };
   /** One span per board language; the board shows one language at a time. */
   function ml(vals) { return vals.length === 1 ? esc(vals[0]) : vals.map((v, i) => `<span class="ml" data-l="${i}">${esc(v)}</span>`).join(''); }
+  /* Airline logos: third-party image service keyed on the 2-character IATA airline code.
+   * Change window.ONWARD_LOGO_URL to switch provider. Logos that fail to load are remembered
+   * (per session) and the board falls back to the plain carrier-code chip. */
+  const LOGO_URL = () => window.ONWARD_LOGO_URL || 'https://pics.avs.io/120/60/{code}.png';
+  const logoState = {};
+  window.ONWARD_LOGO = function (code, ok, img) {
+    logoState[code] = ok ? 'ok' : 'bad';
+    if (!img) return;
+    if (ok) { if (img.parentNode) img.parentNode.classList.add('ok'); } else img.remove();
+  };
+  function airlineMark(r) {
+    const code = String(r.airline || '').toUpperCase();
+    const chip = `<span class="al">${esc(r.airline || '')}</span>`;
+    if ((window.ONWARD_SETTINGS || {}).airlineLogos === false || !/^[A-Z0-9]{2}$/.test(code) || logoState[code] === 'bad') return chip;
+    const src = LOGO_URL().replace('{code}', encodeURIComponent(code));
+    return `<span class="alwrap${logoState[code] === 'ok' ? ' ok' : ''}" title="${esc(r.airlineName || code)}"><img class="alogo" alt="${esc(r.airlineName || code)}" src="${esc(src)}" decoding="async" referrerpolicy="no-referrer" onload="ONWARD_LOGO('${code}',1,this)" onerror="ONWARD_LOGO('${code}',0,this)">${chip}</span>`;
+  }
+  const airlineTag = r => r.airlineName ? ` <small class="aln">${esc(r.airlineName)}</small>` : '';
   function cityName(r, lang) {
     const t = (window.ONWARD_CITY_I18N || {})[r.destCode];
     if (lang === 'de') return ((window.ONWARD_CITY_DE || {})[r.destCode]) || r.dest;
@@ -166,8 +184,8 @@
     const COLS = {
       time: { k: 'time', label: lab('time'), v: (r, h) => hm(r.sched, h) },
       newtime: { k: 'newtime', label: lab('newtime'), v: (r, h) => (r.exp && delayMin(r) > 4 && !r.cancelled) ? hm(r.exp, h) : '' },
-      dest: { k: 'dest', label: lab('dest'), v: r => ml(langs.map(l => cityName(r, l))) + (o.showCode !== false && r.destCode ? ` <small>${esc(r.destCode)}</small>` : '') },
-      flt: { k: 'flt', label: lab('flt'), v: r => `<span class="al">${esc(r.airline || '')}</span> ${esc((r.flight || '').replace(/^\S+\s*/, ''))}` },
+      dest: { k: 'dest', label: lab('dest'), v: r => ml(langs.map(l => cityName(r, l))) + (o.showCode !== false && r.destCode ? ` <small>${esc(r.destCode)}</small>` : '') + airlineTag(r) },
+      flt: { k: 'flt', label: lab('flt'), v: r => `${airlineMark(r)} ${esc((r.flight || '').replace(/^\S+\s*/, ''))}` },
       gate: { k: 'gate', label: lab('gate'), v: r => r.gate ? `<span class="gate">${esc(o.terminal && r.terminal && !/^\d+$/.test(r.gate) ? r.terminal + ' ' + r.gate : r.gate)}</span>` : '' },
       term: { k: 'term', label: lab('term'), v: r => esc(r.terminal || '') },
       st: { k: 'st', label: lab('st'), v: (r, h) => { const t = langs.map(l => statusText(r, h, l)); return t.some(Boolean) ? `<span class="st st-${ST_CLASS[r.status] || 'sched'}">${ml(t)}</span>` : ''; } }

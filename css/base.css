@@ -111,3 +111,12 @@ body.idle #hud { opacity: 0; transform: translateY(-100%); pointer-events: none;
 .st .ml { position: relative; }
 .board[data-li] .st .ml:not(.x) { left: auto; }
 .st { position: relative; display: inline-block; }
+
+/* Airline logos and names on airport boards */
+.row .alwrap { display: inline-flex; align-items: center; vertical-align: middle; }
+.row .alogo { display: none; height: 1.1em; width: auto; max-width: 2.2em; object-fit: contain; background: #fff; border-radius: .22em; padding: .06em .18em; box-sizing: border-box; margin-right: .12em; }
+.row .alwrap.ok .alogo { display: inline-block; }
+.row .alwrap.ok .al { display: none; }
+.row .aln { margin-left: .8em; font-weight: 500; opacity: .55; letter-spacing: 0; text-transform: none; }
+#settings label.chk { display: flex; align-items: center; gap: .5em; margin-top: 12px; }
+#settings label.chk input { width: auto; }
