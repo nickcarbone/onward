@@ -30,7 +30,7 @@
     LIM: 'Lima', SCL: 'Santiago', PTY: 'Panama City', SAL: 'San Salvador', GUA: 'Guatemala City', SJO: 'San José CR', MBJ: 'Montego Bay', NAS: 'Nassau', AUA: 'Aruba',
     PUJ: 'Punta Cana', SDQ: 'Santo Domingo', STT: 'St. Thomas', BGI: 'Barbados', HAV: 'Havana', ADD: 'Addis Ababa', LOS: 'Lagos', ACC: 'Accra', CMN: 'Casablanca', JNB: 'Johannesburg'
   };
-  const city = iata => AIRPORT_CITY[iata] || iata || '';
+  const city = iata => AIRPORT_CITY[iata] || ((window.ONWARD_CITY_I18N || {})[iata] || [])[0] || iata || '';
 
   const S = () => window.ONWARD_SETTINGS || {};
   function provider() {

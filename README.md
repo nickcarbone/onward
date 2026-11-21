@@ -25,7 +25,13 @@ The page also works when opened straight from disk (no build step, no server nee
 | Adif | Madrid Atocha, Barcelona Sants | Transitous | Timetable |
 | Split-flap | Milano Centrale, Roma Termini | Transitous | Timetable |
 | US rail | New York Penn, Washington Union Station | Transitous (LIRR live) + Amtraker (Amtrak live overlay) | Partly live |
-| US airport FIDS | JFK, DCA, ORD, ATL, LAX, SFO | AeroDataBox, AirLabs or Aviationstack, with your key | Live with a key |
+| US airport FIDS | JFK, EWR, DCA, IAD, BOS, MIA, ORD, ATL, LAX, SFO, SEA | AeroDataBox, AirLabs or Aviationstack, with your key | Live with a key |
+| Heathrow style (BAA black & yellow) | London Heathrow, London Gatwick | same | Live with a key |
+| Schiphol style (blue, yellow for departures) | Amsterdam Schiphol | same | Live with a key |
+| Frankfurt T1 split-flap, with boarding lamps | Frankfurt | same | Live with a key |
+| Haneda style (Japanese / English / Chinese / Korean rotation) | Tokyo Haneda, Tokyo Narita | same | Live with a key |
+| Hong Kong (Chinese / English alternation) | Hong Kong | same | Live with a key |
+| Changi style (yellow primary, blue secondary) | Singapore Changi | same | Live with a key |
 
 Hubs, stop IDs and source order live in `data/hubs.js`. Add a hub by copying an entry; find Transitous stop IDs with `https://api.transitous.org/api/v1/geocode?text=<name>`.
 
@@ -36,10 +42,13 @@ Hubs, stop IDs and source order live in `data/hubs.js`. Add a hub by copying an 
 
 Keys stay in your browser's localStorage and are only sent to their own provider.
 
+Airport board styles follow each airport's published signage palette and, where documented, its board conventions (Frankfurt's 1972 split-flap boards with green and red boarding lamps; Haneda's four-language screens). Destination names in Japanese, Chinese and Korean come from `data/airport-i18n.js`; airports not listed there show the provider's English name.
+
 ## What the board will and won't claim
 
 - Statuses (“On time”, “Boarding”, “Gate closed”, delays, platform changes) are shown only when a live source reports them. Timetable rows have an empty status column.
 - Cached flight data more than an hour old drops to “SCHEDULED”.
+- Heathrow-style boards say “Wait in lounge” only when live data has no gate yet, and “Go to gate” once one is assigned.
 - Japanese service types come from the train name (e.g. のぞみ → Shinkansen, 新快速 → Special Rapid). Where the feed gives only a number, the board shows the operator rather than guessing “Local”. “16 cars” is shown only for Nozomi, all of which run as 16-car sets.
 - The spec's coach-position (A–D sector) bar is left out: none of the free Swiss sources publish train formations.
 

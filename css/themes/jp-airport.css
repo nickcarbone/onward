@@ -1,0 +1,18 @@
+/* Haneda-style FIDS: four-language rotation */
+[data-theme="jp-airport"] .board { background: #0a101c; color: #fff; font-family: "IBM Plex Sans JP", "Noto Sans TC", "Noto Sans KR", "Noto Sans JP", Inter, sans-serif;
+  --grid: calc(var(--u)*11) calc(var(--u)*11) minmax(0, 1fr) calc(var(--u)*16) calc(var(--u)*11) calc(var(--u)*25); --row-h: calc(var(--u) * 7); box-shadow: 0 0 0 calc(var(--u) * 1.2) #20242c; }
+[data-theme="jp-airport"] .board-head { background: #16243f; padding-bottom: var(--pad); }
+[data-theme="jp-airport"] .bh-title { font-weight: 700; } [data-theme="jp-airport"] .bh-title::before { content: "✈ "; }
+[data-theme="jp-airport"] .cols { background: #111a2d; color: #9fb3d6; text-transform: none; letter-spacing: .04em; }
+[data-theme="jp-airport"] .row { font-size: calc(var(--u) * 3.7); font-weight: 500; border-bottom: 1px solid #1a2233; }
+[data-theme="jp-airport"] .row:nth-child(even) { background: #0d1524; }
+[data-theme="jp-airport"] .c-time { font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="jp-airport"] .c-newtime { color: #ffb020; font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="jp-airport"] .al { display: inline-block; min-width: 2.2em; color: #9fb3d6; }
+[data-theme="jp-airport"] .c-flt { font-size: .85em; }
+[data-theme="jp-airport"] .c-gate { text-align: center; }
+[data-theme="jp-airport"] .gate { display: inline-block; min-width: 2.2em; padding: 0 .2em; border: .08em solid #7fd3ff; color: #7fd3ff; border-radius: .15em; text-align: center; }
+[data-theme="jp-airport"] .st { font-size: .8em; font-weight: 700; position: relative; }
+[data-theme="jp-airport"] .st-boarding { color: #3ee08f; } [data-theme="jp-airport"] .st-delayed { color: #ffb020; }
+[data-theme="jp-airport"] .st-cancelled, [data-theme="jp-airport"] .st-closed { color: #ff6464; } [data-theme="jp-airport"] .st-departed { color: #7d8aa3; }
+[data-theme="jp-airport"] .board-foot { background: #111a2d; }

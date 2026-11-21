@@ -1,0 +1,19 @@
+/* Heathrow-style FIDS: BAA's black-and-yellow palette */
+[data-theme="uk-airport"] .board { background: #050505; color: #fff; font-family: "Source Sans 3", "Frutiger", Arial, sans-serif;
+  --grid: calc(var(--u)*12) minmax(0, 1fr) calc(var(--u)*16) calc(var(--u)*24) calc(var(--u)*10); --row-h: calc(var(--u) * 6.8); box-shadow: 0 0 0 calc(var(--u) * 1.1) #1a1a1a; }
+[data-theme="uk-airport"] .board-head { background: #ffcc00; color: #000; padding-bottom: var(--pad); }
+[data-theme="uk-airport"] .bh-title { font-weight: 700; letter-spacing: .01em; }
+[data-theme="uk-airport"] .bh-title::before { content: "✈"; display: inline-block; transform: rotate(-45deg); margin-right: .3em; }
+[data-theme="uk-airport"] .bh-station, [data-theme="uk-airport"] .bh-clock { color: #000; font-weight: 600; opacity: 1; }
+[data-theme="uk-airport"] .cols { color: #ffcc00; font-weight: 600; text-transform: none; letter-spacing: .02em; opacity: 1; border-bottom: 1px solid #333; }
+[data-theme="uk-airport"] .row { font-size: calc(var(--u) * 3.6); font-weight: 600; border-bottom: 1px solid #1c1c1c; }
+[data-theme="uk-airport"] .c-time { color: #ffcc00; font-variant-numeric: tabular-nums; }
+[data-theme="uk-airport"] .al { display: inline-block; min-width: 2.3em; color: #bbb; font-weight: 600; }
+[data-theme="uk-airport"] .c-flt { color: #ddd; font-size: .85em; }
+[data-theme="uk-airport"] .c-gate { text-align: center; }
+[data-theme="uk-airport"] .gate { display: inline-block; min-width: 2em; padding: 0 .25em; background: #ffcc00; color: #000; font-weight: 700; text-align: center; }
+[data-theme="uk-airport"] .st { font-size: .85em; color: #ffcc00; }
+[data-theme="uk-airport"] .st-boarding { color: #fff; animation: ukapblink 1.4s steps(1) infinite; }
+[data-theme="uk-airport"] .st-cancelled, [data-theme="uk-airport"] .st-closed { color: #ff6b5a; }
+[data-theme="uk-airport"] .st-departed { color: #888; }
+@keyframes ukapblink { 50% { opacity: .4; } }

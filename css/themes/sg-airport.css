@@ -1,0 +1,15 @@
+/* Changi-style FIDS: yellow for primary information, blue for secondary */
+[data-theme="sg-airport"] .board { background: #16181d; color: #fff; font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  --grid: calc(var(--u)*11) minmax(0, 1fr) calc(var(--u)*16) calc(var(--u)*10) calc(var(--u)*9) calc(var(--u)*20); --row-h: calc(var(--u) * 6.8); box-shadow: 0 0 0 calc(var(--u) * 1.1) #0c0d10; }
+[data-theme="sg-airport"] .board-head { border-bottom: calc(var(--u) * .4) solid #ffc20e; }
+[data-theme="sg-airport"] .bh-title { color: #ffc20e; font-weight: 800; }
+[data-theme="sg-airport"] .cols { color: #5fa8e8; font-weight: 700; }
+[data-theme="sg-airport"] .row { font-size: calc(var(--u) * 3.5); font-weight: 600; border-bottom: 1px solid #23262d; }
+[data-theme="sg-airport"] .c-time, [data-theme="sg-airport"] .c-dest { color: #ffc20e; }
+[data-theme="sg-airport"] .c-time { font-variant-numeric: tabular-nums; }
+[data-theme="sg-airport"] .al { display: inline-block; min-width: 2.3em; text-align: center; background: #1f5fa8; color: #fff; border-radius: .15em; font-size: .78em; padding: 0 .2em; }
+[data-theme="sg-airport"] .c-flt { font-size: .9em; } [data-theme="sg-airport"] .c-term, [data-theme="sg-airport"] .c-gate { text-align: center; color: #9cc8f2; }
+[data-theme="sg-airport"] .gate { font-weight: 700; color: #fff; }
+[data-theme="sg-airport"] .st { font-size: .8em; font-weight: 700; color: #9cc8f2; }
+[data-theme="sg-airport"] .st-boarding { color: #3ddc84; } [data-theme="sg-airport"] .st-delayed { color: #ffc20e; }
+[data-theme="sg-airport"] .st-cancelled, [data-theme="sg-airport"] .st-closed { color: #ff6b6b; } [data-theme="sg-airport"] .st-departed { color: #6b7280; }

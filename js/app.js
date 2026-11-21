@@ -90,8 +90,9 @@
   function cue(ev) {
     const now = Date.now(), t = hub.theme;
     const can = gap => now - lastChime > gap;
-    if (t === 'solari-flap') { if (ev.flapped) A.cue(t, 'flap', ev.flapped); return; }
-    if (t === 'us-airport') { if (ev.boarding && can(60e3)) { A.cue(t, 'announce'); lastChime = now; } return; }
+    const th = R.THEMES[t];
+    if (th.flaps) { if (ev.flapped) A.cue('solari-flap', 'flap', ev.flapped); if (!th.airport) return; }
+    if (th.airport) { if (ev.boarding && can(60e3)) { A.cue(t, 'announce'); lastChime = now; } return; }
     if (t === 'jp-rail') { if (ev.newFirst) A.cue(t, 'update'); return; }
     if (t === 'uk-rail' && ev.newFirst && can(90e3)) { A.cue(t, 'announce'); lastChime = now; setTimeout(() => A.cue(t, 'update'), 2600); return; }
     if (ev.platformChange && can(60e3)) { A.cue(t, 'announce'); lastChime = now; return; }
@@ -107,7 +108,7 @@
   function setBadgeFromMeta() {
     if (!meta) return;
     if (meta.cached) return setBadge('timetable', `CACHED ${U.hm(meta.cachedAt, hub.tz)} · ${meta.source} · ${meta.usage}/${meta.budget} calls`);
-    if (hub.theme === 'us-airport') return setBadge('live', `LIVE API · ${meta.source} · ${meta.usage}/${meta.budget} calls`);
+    if (R.THEMES[hub.theme].airport) return setBadge('live', `LIVE API · ${meta.source} · ${meta.usage}/${meta.budget} calls`);
     if (meta.live) return setBadge('live', `LIVE · ${meta.source}`, meta.sourceUrl);
     if (meta.partialLive) return setBadge('timetable', `TIMETABLE + SOME LIVE · ${meta.source}`, meta.sourceUrl);
     return setBadge('timetable', `TIMETABLE · ${meta.source}`, meta.sourceUrl);
@@ -124,8 +125,13 @@
     }
     requestAnimationFrame(frame);
   })();
-  setInterval(() => { if (hub && hub.theme === 'jp-rail') board.classList.toggle('lang-en'); }, 6000);
-  window.addEventListener('resize', () => { if (meta) { if (hub.theme === 'solari-flap') board.querySelector('.rows').innerHTML = ''; render(false); } });
+  setInterval(() => {
+    if (!hub) return;
+    if (hub.theme === 'jp-rail') board.classList.toggle('lang-en');
+    const langs = R.THEMES[hub.theme].langs;
+    if (langs && langs.length > 1) board.dataset.li = String(((+board.dataset.li || 0) + 1) % langs.length);
+  }, 6000);
+  window.addEventListener('resize', () => { if (meta) { if (R.THEMES[hub.theme].flaps) board.querySelector('.rows').innerHTML = ''; render(false); } });
 
   /* ── HUD auto-hide ───────────────────────────────────────────────────── */
   let idleTimer;
@@ -163,7 +169,7 @@
     return dow > 0 && dow < 6 && ((x >= 7 && x < 9.5) || (x >= 16.5 && x < 19));
   }
   function roamNext() {
-    const pool = HUBS.filter(h => h !== hub && (h.theme !== 'us-airport' || window.FlightEngine.provider()));
+    const pool = HUBS.filter(h => h !== hub && (!R.THEMES[h.theme].airport || window.FlightEngine.provider()));
     const weights = pool.map(h => (S.rush && isRush(h) ? 5 : 1) * (U.localHour(h.tz) >= 1 && U.localHour(h.tz) < 5 ? 0.15 : 1));
     let x = Math.random() * weights.reduce((a, b) => a + b, 0);
     for (let i = 0; i < pool.length; i++) { x -= weights[i]; if (x <= 0) return selectHub(pool[i].id); }

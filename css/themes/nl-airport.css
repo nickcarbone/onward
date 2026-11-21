@@ -1,0 +1,18 @@
+/* Schiphol-style FIDS: Schiphol blue, departures in yellow */
+[data-theme="nl-airport"] .board { background: #141e5a; color: #fff; font-family: "Source Sans 3", "Frutiger", Arial, sans-serif;
+  --grid: calc(var(--u)*12) minmax(0, 1fr) calc(var(--u)*17) calc(var(--u)*10) calc(var(--u)*22); --row-h: calc(var(--u) * 6.8); box-shadow: 0 0 0 calc(var(--u) * 1.1) #0b1036; }
+[data-theme="nl-airport"] .board-head { background: #ffd100; color: #141e5a; padding-bottom: var(--pad); }
+[data-theme="nl-airport"] .bh-title { font-weight: 800; }
+[data-theme="nl-airport"] .bh-title::before { content: "✈"; display: inline-block; transform: rotate(-45deg); margin-right: .3em; }
+[data-theme="nl-airport"] .bh-station, [data-theme="nl-airport"] .bh-clock { color: #141e5a; font-weight: 700; opacity: 1; }
+[data-theme="nl-airport"] .cols { color: #ffd100; font-weight: 700; opacity: 1; }
+[data-theme="nl-airport"] .row { font-size: calc(var(--u) * 3.6); font-weight: 600; border-top: 1px solid rgba(255,255,255,.12); }
+[data-theme="nl-airport"] .c-time { color: #ffd100; font-variant-numeric: tabular-nums; }
+[data-theme="nl-airport"] .al { display: inline-block; min-width: 2.3em; opacity: .75; }
+[data-theme="nl-airport"] .c-flt { font-size: .85em; }
+[data-theme="nl-airport"] .c-gate { text-align: center; }
+[data-theme="nl-airport"] .gate { display: inline-block; min-width: 2.4em; padding: 0 .2em; background: #ffd100; color: #141e5a; font-weight: 800; border-radius: .15em; text-align: center; }
+[data-theme="nl-airport"] .st { font-size: .8em; font-weight: 700; }
+[data-theme="nl-airport"] .st-boarding { color: #6ee7a8; } [data-theme="nl-airport"] .st-delayed { color: #ffd100; }
+[data-theme="nl-airport"] .st-cancelled, [data-theme="nl-airport"] .st-closed { color: #ff7b7b; } [data-theme="nl-airport"] .st-departed { opacity: .6; }
+[data-theme="nl-airport"] .board-foot { background: #0f1748; }

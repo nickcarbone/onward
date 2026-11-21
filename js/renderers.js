@@ -136,6 +136,101 @@
     }
   };
 
+
+  /* ── International airport boards ────────────────────────────────────── */
+  const LANG_IX = { en: 0, ja: 1, zh: 2, ko: 3 };
+  const STATUS_I18N = {
+    'BOARDING':    { en: 'Boarding', ja: '搭乗中', zh: '登機', ko: '탑승중', de: 'BOARDING' },
+    'GATE CLOSED': { en: 'Gate closed', ja: '搭乗締切', zh: '閘口關閉', ko: '탑승마감', de: 'GATE GESCHL' },
+    'CHECK-IN':    { en: 'Check-in open', ja: '手続中', zh: '辦理登機', ko: '수속중', de: 'CHECK-IN' },
+    'DEPARTED':    { en: 'Departed', ja: '出発済', zh: '已起飛', ko: '출발', de: 'GESTARTET' },
+    'CANCELLED':   { en: 'Cancelled', ja: '欠航', zh: '取消', ko: '결항', de: 'ANNULLIERT' },
+    'DELAYED':     { en: 'Delayed', ja: '遅延', zh: '延誤', ko: '지연', de: 'VERSPAETET' },
+    'DIVERTED':    { en: 'Diverted', ja: '目的地変更', zh: '改降', ko: '회항', de: 'UMGELEITET' },
+    'ON TIME':     { en: 'On time', ja: '定刻', zh: '準時', ko: '정시', de: '' },
+    'SCHEDULED':   { en: '', ja: '', zh: '', ko: '', de: '' }
+  };
+  const ST_CLASS = { 'BOARDING': 'boarding', 'ON TIME': 'ontime', 'DELAYED': 'delayed', 'GATE CLOSED': 'closed', 'CANCELLED': 'cancelled', 'DEPARTED': 'departed', 'CHECK-IN': 'ontime', 'SCHEDULED': 'sched', 'DIVERTED': 'delayed' };
+  /** One span per board language; the board shows one language at a time. */
+  function ml(vals) { return vals.length === 1 ? esc(vals[0]) : vals.map((v, i) => `<span class="ml" data-l="${i}">${esc(v)}</span>`).join(''); }
+  function cityName(r, lang) {
+    const t = (window.ONWARD_CITY_I18N || {})[r.destCode];
+    if (lang === 'de') return ((window.ONWARD_CITY_DE || {})[r.destCode]) || r.dest;
+    if (lang === 'en' || !t) return r.dest || (t && t[0]) || r.destCode || '';
+    return t[LANG_IX[lang]] || r.dest;
+  }
+  function apTheme(o) {
+    const langs = o.langs || ['en'];
+    const lab = k => ml(langs.map(l => (o.labels[k] || {})[l] || (o.labels[k] || {}).en || ''));
+    const statusText = (r, h, l) => (o.status ? o.status(r, h, l) : null) ?? ((r.status === 'DELAYED' && r.exp) ? `${STATUS_I18N.DELAYED[l]} ${hm(r.exp, h)}` : (STATUS_I18N[r.status] || {})[l] || '');
+    const COLS = {
+      time: { k: 'time', label: lab('time'), v: (r, h) => hm(r.sched, h) },
+      newtime: { k: 'newtime', label: lab('newtime'), v: (r, h) => (r.exp && delayMin(r) > 4 && !r.cancelled) ? hm(r.exp, h) : '' },
+      dest: { k: 'dest', label: lab('dest'), v: r => ml(langs.map(l => cityName(r, l))) + (o.showCode !== false && r.destCode ? ` <small>${esc(r.destCode)}</small>` : '') },
+      flt: { k: 'flt', label: lab('flt'), v: r => `<span class="al">${esc(r.airline || '')}</span> ${esc((r.flight || '').replace(/^\S+\s*/, ''))}` },
+      gate: { k: 'gate', label: lab('gate'), v: r => r.gate ? `<span class="gate">${esc(o.terminal && r.terminal && !/^\d+$/.test(r.gate) ? r.terminal + ' ' + r.gate : r.gate)}</span>` : '' },
+      term: { k: 'term', label: lab('term'), v: r => esc(r.terminal || '') },
+      st: { k: 'st', label: lab('st'), v: (r, h) => { const t = langs.map(l => statusText(r, h, l)); return t.some(Boolean) ? `<span class="st st-${ST_CLASS[r.status] || 'sched'}">${ml(t)}</span>` : ''; } }
+    };
+    return {
+      airport: true, langs, clock: o.clock || 'digital',
+      title: ml(langs.map(l => o.title[l] || o.title.en)),
+      cols: o.cols.map(k => COLS[k]),
+      disruption: o.disruption
+    };
+  }
+  const AP_LABELS = {
+    time: { en: 'Time', ja: '定刻', zh: '時間', ko: '시각' }, newtime: { en: 'New time', ja: '変更', zh: '新時間', ko: '변경' },
+    dest: { en: 'Destination', ja: '行先', zh: '目的地', ko: '목적지' }, flt: { en: 'Flight', ja: '便名', zh: '航班', ko: '편명' },
+    gate: { en: 'Gate', ja: '搭乗口', zh: '閘口', ko: '탑승구' }, term: { en: 'Terminal' }, st: { en: 'Remarks', ja: '備考', zh: '狀況', ko: '비고' }
+  };
+
+  Object.assign(THEMES, {
+    'uk-airport': apTheme({
+      title: { en: 'Departures' }, cols: ['time', 'dest', 'flt', 'st', 'gate'],
+      labels: Object.assign({}, AP_LABELS, { st: { en: 'Status' } }),
+      /* Heathrow shows gates about 45 minutes before departure; until then passengers wait in the lounge. */
+      status: (r, h) => {
+        if (['BOARDING', 'GATE CLOSED', 'CANCELLED', 'DEPARTED', 'DIVERTED'].includes(r.status)) return null;
+        if (r.status === 'DELAYED') return r.exp ? `Expected ${hm(r.exp, h)}` : 'Delayed';
+        if (!r.rt) return '';
+        return r.gate ? 'Go to gate' : 'Wait in lounge';
+      },
+      disruption: { head: 'Flight information', lines: ['Flight information is temporarily unavailable.', 'Please check with your airline.'] }
+    }),
+    'nl-airport': apTheme({
+      title: { en: 'Departures' }, cols: ['time', 'dest', 'flt', 'gate', 'st'], labels: AP_LABELS,
+      disruption: { head: 'Flight information unavailable', lines: ['Please check with your airline.'] }
+    }),
+    'jp-airport': apTheme({
+      langs: ['ja', 'en', 'zh', 'ko'], title: { ja: '出発', en: 'Departures', zh: '出發', ko: '출발' },
+      cols: ['time', 'newtime', 'dest', 'flt', 'gate', 'st'], labels: AP_LABELS, showCode: false,
+      disruption: { head: ml(['ただいま運航情報を表示できません', 'Flight information is unavailable', '暫時無法顯示航班資訊', '운항 정보를 표시할 수 없습니다']), lines: [], raw: true }
+    }),
+    'hk-airport': apTheme({
+      langs: ['zh', 'en'], title: { zh: '離港', en: 'Departures' }, cols: ['time', 'flt', 'dest', 'gate', 'st'],
+      labels: Object.assign({}, AP_LABELS, { gate: { zh: '登機閘口', en: 'Gate' } }), showCode: false,
+      disruption: { head: ml(['航班資料暫時未能顯示', 'Flight information is temporarily unavailable']), lines: [], raw: true }
+    }),
+    'sg-airport': apTheme({
+      title: { en: 'Departures' }, cols: ['time', 'dest', 'flt', 'term', 'gate', 'st'], terminal: false,
+      labels: Object.assign({}, AP_LABELS, { st: { en: 'Status' }, term: { en: 'Terminal' } }),
+      disruption: { head: 'Flight information unavailable', lines: ['Please check with your airline.'] }
+    }),
+    'de-airport': {
+      airport: true, clock: 'flip', flaps: true, title: 'Abflug <small>Departures</small>',
+      cols: [
+        { k: 'time', label: 'Zeit', w: 5, v: (r, h) => hm(r.sched, h) },
+        { k: 'flt', label: 'Flug', w: 7, v: r => (r.flight || '').replace(/\s+/g, ' ') },
+        { k: 'dest', label: 'Nach / To', w: 17, v: r => cityName(r, 'de') },
+        { k: 'gate', label: 'Gate', w: 4, v: r => r.gate || '' },
+        { k: 'rem', label: 'Bemerkung', w: 11, v: (r, h) => r.status === 'DELAYED' && r.exp ? `NEU ${hm(r.exp, h)}` : (STATUS_I18N[r.status] || {}).de || '' },
+        { k: 'lamp', label: '', lamp: true }
+      ],
+      disruption: { lines: ['FLUGINFORMATION', 'ZURZEIT NICHT', 'VERFUEGBAR', '', 'BITTE WENDEN SIE', 'SICH AN IHRE AIRLINE'] }
+    }
+  });
+
   function rrCode(r) {
     const o = r.operator || '';
     if (/amtrak/i.test(o)) return 'AMTK';
@@ -182,6 +277,7 @@
 
   /* ── Split-flap tiles ────────────────────────────────────────────────── */
   const FLAP_SET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-:/\'ÀÈÉÌÒÙ';
+  function flapRow(th) { return `<div class="frow">${th.cols.map(c => c.lamp ? '<div class="c c-lamp"><i class="lg"></i><i class="lr"></i></div>' : `<div class="c c-${c.k}">${flapCell(c.w)}</div>`).join('')}</div>`; }
   function flapCell(width) { return `<span class="flaps">${'<span class="fl"><span class="ch"> </span></span>'.repeat(width)}</span>`; }
   /** Set text on a flap cell; returns number of tiles that flipped. */
   function setFlaps(cell, text, width, stagger) {
@@ -210,10 +306,10 @@
   function build(root, hub) {
     const th = THEMES[hub.theme];
     const meta = window.ONWARD_THEME_META[hub.theme];
-    const title = meta.titleAlt ? (th.bilingual ? bi(meta.title, meta.titleAlt) : `${esc(meta.title)} <small>${esc(meta.titleAlt)}</small>`) : esc(meta.title);
-    const station = th.bilingual ? bi(hub.local || hub.short, hub.name) : esc(hub.name);
+    const title = th.title || (meta.titleAlt ? (th.bilingual ? bi(meta.title, meta.titleAlt) : `${esc(meta.title)} <small>${esc(meta.titleAlt)}</small>`) : esc(meta.title));
+    const station = th.bilingual ? bi(hub.local || hub.short, hub.name) : (th.langs && th.langs.length > 1 && hub.localNames ? ml(th.langs.map(l => hub.localNames[l] || hub.name)) : esc(hub.name));
     const head = th.flaps
-      ? `<div class="cols flap-head">${th.cols.map(c => `<div class="c c-${c.k}" style="--w:${c.w}">${esc(c.label)}</div>`).join('')}</div>`
+      ? `<div class="cols flap-head">${th.cols.map(c => `<div class="c c-${c.k}" style="--w:${c.w || 2}">${esc(c.label)}</div>`).join('')}</div>`
       : `<div class="cols">${th.cols.map(c => `<div class="c c-${c.k}">${c.label}</div>`).join('')}</div>`;
     root.innerHTML = `
       <div class="board-glass"></div>
@@ -222,6 +318,9 @@
       <div class="rows"></div>
       <footer class="board-foot"><div class="ticker"><span class="ticker-text"></span></div></footer>`;
     buildClock(root.querySelector('.bh-clock'), th.clock);
+    root.classList.toggle('flapboard', !!th.flaps);
+    root.style.setProperty('--ncol', th.cols.length);
+    root.dataset.li = '0';
     root._state = { prev: new Map(), flapRows: [] };
   }
 
@@ -254,11 +353,12 @@
 
     if (th.flaps) {
       if (box.children.length !== n || !box.querySelector('.frow')) {
-        box.innerHTML = Array.from({ length: n }, () => `<div class="frow">${th.cols.map(c => `<div class="c c-${c.k}">${flapCell(c.w)}</div>`).join('')}</div>`).join('');
+        box.innerHTML = Array.from({ length: n }, () => flapRow(th)).join('');
       }
       [...box.children].forEach((rowEl, i) => {
         const r = show[i];
         th.cols.forEach((c, j) => {
+          if (c.lamp) { rowEl.children[j].classList.toggle('blink', !!(r && r.status === 'BOARDING')); return; }
           events.flapped += setFlaps(rowEl.children[j], r ? c.v(r, hub) : '', c.w, i * 60);
         });
       });
@@ -301,14 +401,19 @@
     root._state.prev = new Map();
     if (th.flaps) {
       const n = Math.max(rowCapacity(root), d.lines.length);
-      box.innerHTML = Array.from({ length: n }, () => `<div class="frow">${th.cols.map(c => `<div class="c c-${c.k}">${flapCell(c.w)}</div>`).join('')}</div>`).join('');
+      box.innerHTML = Array.from({ length: n }, () => flapRow(th)).join('');
+      const di = th.cols.findIndex(c => c.k === 'dest');
       [...box.children].forEach((rowEl, i) => {
         const line = d.lines[i] || '';
-        th.cols.forEach((c, j) => setFlaps(rowEl.children[j], j === 1 ? line : (line ? '- - -'.slice(0, c.w) : ''), c.w, i * 80));
+        th.cols.forEach((c, j) => { if (!c.lamp) setFlaps(rowEl.children[j], j === di ? line : (line ? '- - -'.slice(0, c.w) : ''), c.w, i * 80); });
       });
       return;
     }
     let lines = d.lines.map(l => `<div class="dl">${d.raw ? l : esc(l)}</div>`).join('');
+    if (th.airport && reason && hub.theme !== 'us-airport') {
+      const note = reason === 'nokey' ? 'Add a flight-data key in Settings to restore this board.' : reason === 'budget' ? 'Monthly data allowance reached.' : '';
+      if (note) lines += `<div class="dl dl-note">${esc(note)}</div>`;
+    }
     if (hub.theme === 'us-airport') {
       const msg = reason === 'nokey' ? 'Add a flight-data key in Settings to restore service.' : reason === 'budget' ? 'Monthly data allowance reached. Service resumes next month.' : 'Please see an agent or check with your airline.';
       lines = ['ALL FLIGHTS', 'SEE AGENT', 'INFORMATION DELAYED'].map((t, i) => `<div class="row"><div class="c c-flt"><span class="al">--</span></div><div class="c c-dest">${t}</div><div class="c c-time">--:--</div><div class="c c-gate">--</div><div class="c c-st"><span class="st st-delayed">${i === 2 ? 'DELAYED' : 'SEE AGENT'}</span></div></div>`).join('')
@@ -318,5 +423,5 @@
     setTicker(root, th.disruption.tick || '');
   }
 
-  window.Renderers = { THEMES, build, update, disruption, tickClock, setTicker };
+  window.Renderers = { THEMES, build, update, disruption, tickClock, setTicker, ml };
 })();

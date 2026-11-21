@@ -62,7 +62,13 @@
     'fr-rail': { announce: t => seq(['F4', 'A4', 'C5', 'F5'], 0.26, (f, t) => vibes(f, t, 2.4, 0.15), t) },
     'es-rail': { announce: t => seq(['C5', 'E5', 'G5', 'C5'], 0.3, (f, t) => bell(f, t, 1.8, 0.15), t) },
     'us-rail': { announce: t => seq(['C5', 'A4', 'F4'], 0.45, (f, t) => bell(f, t, 2.2, 0.17), t) },
-    'solari-flap': {}
+    'solari-flap': {},
+    'uk-airport': { announce: t => seq(['E5', 'C5'], 0.55, (f, t) => bell(f, t, 2.4, 0.17), t) },
+    'nl-airport': { announce: t => seq(['G4', 'C5', 'E5'], 0.38, (f, t) => vibes(f, t, 2.4, 0.15), t) },
+    'jp-airport': { announce: t => seq(['C5', 'E5', 'G5', 'C6'], 0.22, (f, t) => vibes(f, t, 2.0, 0.13), t) },
+    'hk-airport': { announce: t => seq(['G4', 'D5', 'B4'], 0.42, (f, t) => bell(f, t, 2.2, 0.15), t) },
+    'sg-airport': { announce: t => seq(['A4', 'C#5', 'E5'].map(n => n === 'C#5' ? 'D5' : n), 0.4, (f, t) => vibes(f, t, 2.4, 0.15), t) },
+    'de-airport': { announce: t => seq(['A4', 'E5'], 0.5, (f, t) => bell(f, t, 2.0, 0.15), t) }
   };
 
   function flapClatter(chars) {

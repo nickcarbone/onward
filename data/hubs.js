@@ -85,12 +85,30 @@ window.ONWARD_HUBS = [
   { id: 'WAS', name: 'Washington Union Station', short: 'Union Station', country: 'United States', theme: 'us-rail', tz: 'America/New_York', lat: 38.8973, lon: -77.0063,
     sources: [{ type: 'transitous', stopId: 'us-Amtrak_WAS', radius: 300, modes: RAIL_MODES, amtrak: 'WAS' }] },
 
+  /* ── International airports (need a flight-data key) ────────────────── */
+  { id: 'LHR', name: 'London Heathrow', short: 'Heathrow', country: 'United Kingdom', theme: 'uk-airport', tz: 'Europe/London', lat: 51.4700, lon: -0.4543, sources: [{ type: 'flights', iata: 'LHR' }] },
+  { id: 'LGW', name: 'London Gatwick', short: 'Gatwick', country: 'United Kingdom', theme: 'uk-airport', tz: 'Europe/London', lat: 51.1537, lon: -0.1821, sources: [{ type: 'flights', iata: 'LGW' }] },
+  { id: 'AMS', name: 'Amsterdam Schiphol', short: 'Schiphol', country: 'Netherlands', theme: 'nl-airport', tz: 'Europe/Amsterdam', lat: 52.3105, lon: 4.7683, sources: [{ type: 'flights', iata: 'AMS' }] },
+  { id: 'FRA', name: 'Frankfurt Airport — Terminal 1', short: 'Frankfurt Airport', country: 'Germany', theme: 'de-airport', tz: 'Europe/Berlin', lat: 50.0379, lon: 8.5622, sources: [{ type: 'flights', iata: 'FRA' }] },
+  { id: 'HND', name: 'Tokyo Haneda', short: 'Haneda', country: 'Japan', theme: 'jp-airport', tz: 'Asia/Tokyo', lat: 35.5494, lon: 139.7798, sources: [{ type: 'flights', iata: 'HND' }],
+    localNames: { ja: '東京国際空港(羽田)', en: 'Tokyo International Airport (Haneda)', zh: '東京國際機場(羽田)', ko: '도쿄 국제공항(하네다)' } },
+  { id: 'NRT', name: 'Tokyo Narita', short: 'Narita', country: 'Japan', theme: 'jp-airport', tz: 'Asia/Tokyo', lat: 35.7720, lon: 140.3929, sources: [{ type: 'flights', iata: 'NRT' }],
+    localNames: { ja: '成田国際空港', en: 'Narita International Airport', zh: '成田國際機場', ko: '나리타 국제공항' } },
+  { id: 'HKG', name: 'Hong Kong International', short: 'Hong Kong', country: 'Hong Kong', theme: 'hk-airport', tz: 'Asia/Hong_Kong', lat: 22.3080, lon: 113.9185, sources: [{ type: 'flights', iata: 'HKG' }],
+    localNames: { zh: '香港國際機場', en: 'Hong Kong International Airport' } },
+  { id: 'SIN', name: 'Singapore Changi', short: 'Changi', country: 'Singapore', theme: 'sg-airport', tz: 'Asia/Singapore', lat: 1.3644, lon: 103.9915, sources: [{ type: 'flights', iata: 'SIN' }] },
+
   /* ── United States — airports (needs a flight-data key) ──────────────── */
   { id: 'JFK', name: 'New York JFK', short: 'JFK', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 40.6413, lon: -73.7781, sources: [{ type: 'flights', iata: 'JFK' }] },
   { id: 'DCA', name: 'Washington National (DCA)', short: 'DCA', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 38.8512, lon: -77.0402, sources: [{ type: 'flights', iata: 'DCA' }] },
   { id: 'ORD', name: "Chicago O'Hare", short: 'ORD', country: 'United States', theme: 'us-airport', tz: 'America/Chicago', lat: 41.9742, lon: -87.9073, sources: [{ type: 'flights', iata: 'ORD' }] },
   { id: 'ATL', name: 'Atlanta Hartsfield-Jackson', short: 'ATL', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 33.6407, lon: -84.4277, sources: [{ type: 'flights', iata: 'ATL' }] },
   { id: 'LAX', name: 'Los Angeles LAX', short: 'LAX', country: 'United States', theme: 'us-airport', tz: 'America/Los_Angeles', lat: 33.9416, lon: -118.4085, sources: [{ type: 'flights', iata: 'LAX' }] },
+  { id: 'EWR', name: 'Newark Liberty', short: 'EWR', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 40.6895, lon: -74.1745, sources: [{ type: 'flights', iata: 'EWR' }] },
+  { id: 'IAD', name: 'Washington Dulles', short: 'IAD', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 38.9531, lon: -77.4565, sources: [{ type: 'flights', iata: 'IAD' }] },
+  { id: 'BOS', name: 'Boston Logan', short: 'BOS', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 42.3656, lon: -71.0096, sources: [{ type: 'flights', iata: 'BOS' }] },
+  { id: 'MIA', name: 'Miami International', short: 'MIA', country: 'United States', theme: 'us-airport', tz: 'America/New_York', lat: 25.7959, lon: -80.2870, sources: [{ type: 'flights', iata: 'MIA' }] },
+  { id: 'SEA', name: 'Seattle-Tacoma', short: 'SEA', country: 'United States', theme: 'us-airport', tz: 'America/Los_Angeles', lat: 47.4502, lon: -122.3088, sources: [{ type: 'flights', iata: 'SEA' }] },
   { id: 'SFO', name: 'San Francisco SFO', short: 'SFO', country: 'United States', theme: 'us-airport', tz: 'America/Los_Angeles', lat: 37.6213, lon: -122.3790, sources: [{ type: 'flights', iata: 'SFO' }] }
 ];
 
@@ -105,5 +123,11 @@ window.ONWARD_THEME_META = {
   'es-rail':     { title: 'Salidas', titleAlt: 'Departures', label: 'Spain · Adif' },
   'solari-flap': { title: 'Partenze', titleAlt: 'Departures', label: 'Italy · Split-flap' },
   'us-rail':     { title: 'Departures', label: 'US Rail' },
-  'us-airport':  { title: 'Departures', label: 'US Airport FIDS' }
+  'us-airport':  { title: 'Departures', label: 'US Airport FIDS' },
+  'uk-airport':  { title: 'Departures', label: 'Heathrow-style (BAA black & yellow)' },
+  'nl-airport':  { title: 'Departures', label: 'Schiphol-style (blue & yellow)' },
+  'de-airport':  { title: 'Abflug', titleAlt: 'Departures', label: 'Frankfurt T1 split-flap' },
+  'jp-airport':  { title: '出発', titleAlt: 'Departures', label: 'Haneda-style (4 languages)' },
+  'hk-airport':  { title: '離港', titleAlt: 'Departures', label: 'Hong Kong (Chinese / English)' },
+  'sg-airport':  { title: 'Departures', label: 'Changi-style (yellow & blue)' }
 };

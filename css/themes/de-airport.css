@@ -1,0 +1,13 @@
+/* Frankfurt Terminal 1 split-flap: base tiles come from solari-flap.css (.flapboard) */
+[data-theme="de-airport"] .board { background: #141516; }
+[data-theme="de-airport"] .bh-title { font-size: calc(var(--u) * 4.2); }
+[data-theme="de-airport"] .bh-title small { font-size: .6em; opacity: .7; text-transform: none; }
+[data-theme="de-airport"] .c-time .fl { color: #f3f1ea; }
+[data-theme="de-airport"] .c-gate .fl { color: #ffd24a; }
+[data-theme="de-airport"] .c-rem .fl { color: #ffd24a; }
+.flapboard .c-lamp { display: flex; gap: calc(var(--u) * .7); align-items: center; padding-left: calc(var(--u) * .6); }
+.flapboard .c-lamp i { width: calc(var(--u) * 1.8); height: calc(var(--u) * 1.8); border-radius: 50%; background: #2a2b2d; box-shadow: inset 0 0 calc(var(--u) * .4) #000; }
+.flapboard .c-lamp.blink .lg { animation: lampg 1s steps(1) infinite; }
+.flapboard .c-lamp.blink .lr { animation: lampr 1s steps(1) infinite; }
+@keyframes lampg { 0% { background: #33e070; box-shadow: 0 0 calc(var(--u) * 1.2) #33e070; } 50% { background: #2a2b2d; box-shadow: none; } }
+@keyframes lampr { 0% { background: #2a2b2d; box-shadow: none; } 50% { background: #ff4040; box-shadow: 0 0 calc(var(--u) * 1.2) #ff4040; } }

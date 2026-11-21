@@ -1,0 +1,15 @@
+/* Hong Kong-style FIDS: Chinese / English alternation */
+[data-theme="hk-airport"] .board { background: #030303; color: #fff; font-family: "Noto Sans TC", Inter, Arial, sans-serif;
+  --grid: calc(var(--u)*11) calc(var(--u)*16) minmax(0, 1fr) calc(var(--u)*14) calc(var(--u)*27); --row-h: calc(var(--u) * 7); box-shadow: 0 0 0 calc(var(--u) * 1.2) #262626; }
+[data-theme="hk-airport"] .board-head { border-bottom: calc(var(--u) * .4) solid #f6c400; }
+[data-theme="hk-airport"] .bh-title { color: #f6c400; font-weight: 700; }
+[data-theme="hk-airport"] .cols { color: #a8a8a8; text-transform: none; }
+[data-theme="hk-airport"] .row { font-size: calc(var(--u) * 3.8); font-weight: 500; border-bottom: 1px solid #191919; }
+[data-theme="hk-airport"] .c-time { color: #f6c400; font-weight: 700; font-variant-numeric: tabular-nums; }
+[data-theme="hk-airport"] .al { display: inline-block; min-width: 2.2em; color: #a8a8a8; }
+[data-theme="hk-airport"] .c-flt { font-size: .85em; }
+[data-theme="hk-airport"] .c-gate { text-align: center; }
+[data-theme="hk-airport"] .gate { color: #f6c400; font-weight: 700; }
+[data-theme="hk-airport"] .st { font-size: .82em; font-weight: 700; position: relative; }
+[data-theme="hk-airport"] .st-boarding { color: #33d17a; } [data-theme="hk-airport"] .st-delayed { color: #f6c400; }
+[data-theme="hk-airport"] .st-cancelled, [data-theme="hk-airport"] .st-closed { color: #ff5c5c; } [data-theme="hk-airport"] .st-departed { color: #777; }
